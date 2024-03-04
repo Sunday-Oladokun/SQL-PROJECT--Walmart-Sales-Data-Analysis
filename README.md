@@ -1,3 +1,3 @@
-# SQL PROJECT- Database to Interactive Dashboard
+# SQL PROJECT- Walmart Sales Data
  
 This is an ongoing project
