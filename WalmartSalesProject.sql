@@ -28,7 +28,7 @@ MODIFY COLUMN gender VARCHAR(8) NOT NULL;
 
 SELECT * FROM walmartsalesdata.sales;
 
--- ---------- Feature Engineering ------------------
+-- ---------- FEATURE ENGINEERING ------------------
 
 -- Creating data for time of the day
 SELECT 
@@ -74,3 +74,47 @@ ADD COLUMN month VARCHAR(10);
 
 UPDATE sales
 SET MONTH = MONTHNAME(date);
+
+-- ---------------------- EXPLORATORY DATA ANALYSIS -----------------------------------------
+-- -------------- General Questions
+
+-- How many unique cities and branches does the data contain?
+SELECT
+	DISTINCT city
+FROM sales;
+    
+SELECT
+	DISTINCT branch
+FROM sales;
+
+-- In what branch are the unique cities located
+SELECT 
+	DISTINCT city, branch
+FROM sales;
+
+-- -------------- Product Related Questions
+-- Unique product lines the business operates and the count
+SELECT
+	DISTINCT product_line
+FROM sales
+
+SELECT
+	COUNT(DISTINCT product_line)
+FROM sales;
+
+-- Number of payments made via and Most used payment method in descending order
+SELECT COUNT(payment_method)
+FROM sales;
+
+SELECT payment_method, COUNT(payment_method) AS pay_count
+FROM sales
+GROUP BY payment_method
+ORDER BY pay_count DESC;
+
+-- The product line that sells the most
+SELECT product_line, COUNT(product_line) AS product_count
+FROM sales
+GROUP BY product_line
+ORDER BY product_count DESC;
+
+-- What
