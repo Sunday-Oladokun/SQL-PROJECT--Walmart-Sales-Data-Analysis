@@ -53,4 +53,24 @@ SET time_of_day = (
 	END
 );
 
-SHOW DATABASES;
+-- Insert the day of the week as weekday
+SELECT
+	date, DAYNAME(date) AS weekday
+    FROM sales;
+    
+ALTER TABLE sales
+ADD COLUMN weekday VARCHAR(10);
+
+UPDATE sales
+SET weekday = DAYNAME(date);
+
+-- Insert the month column as month
+SELECT date,
+	MONTHNAME(date) AS month
+    FROM sales;
+    
+ALTER TABLE sales
+ADD COLUMN month VARCHAR(10);
+
+UPDATE sales
+SET MONTH = MONTHNAME(date);
