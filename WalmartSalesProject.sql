@@ -53,3 +53,4 @@ SET time_of_day = (
 	END
 );
 
+SHOW DATABASES;
