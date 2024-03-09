@@ -76,7 +76,7 @@ UPDATE sales
 SET MONTH = MONTHNAME(date);
 
 -- ---------------------- EXPLORATORY DATA ANALYSIS -----------------------------------------
--- -------------- General Questions
+-- -------------- General Questions ------------------------------
 
 -- How many unique cities and branches does the data contain?
 SELECT
@@ -92,7 +92,7 @@ SELECT
 	DISTINCT city, branch
 FROM sales;
 
--- -------------- Product Related Questions
+-- -------------- Product Related Questions --------------------------
 -- Unique product lines the business operates and the count
 SELECT
 	DISTINCT product_line
@@ -117,4 +117,72 @@ FROM sales
 GROUP BY product_line
 ORDER BY product_count DESC;
 
--- What
+-- Total revenue by month
+SELECT month AS month,
+	SUM(total) AS total_revenue
+FROM sales
+GROUP BY month
+ORDER BY total_revenue DESC;
+
+-- Which month has the highest cost of goods sold
+SELECT month, SUM(cost_goods) AS cost_goods
+FROM sales
+GROUP BY month
+ORDER BY cost_goods DESC
+LIMIT 1;
+
+-- Product line with the most revenue
+SELECT product_line, SUM(total) AS total_revenue
+FROM sales
+GROUP BY product_line
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+-- What is the city with the largest revenue?
+SELECT city, SUM(total) AS total_revenue
+FROM sales
+GROUP BY city
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+-- Product line with the higest Tax Payment (VAT)
+-- We are using the average(AVG) value to calculate the tax as they vary from product to product. If it was a constant, we could use SUM
+SELECT product_line, AVG(VAT) AS avg_tax
+FROM sales
+GROUP BY product_line
+ORDER BY avg_tax DESC
+LIMIT 1;
+
+-- Branch that sold more products compared to average product sold
+SELECT branch, SUM(quantity) AS qty
+FROM sales
+GROUP BY branch
+HAVING SUM(quantity) > (SELECT AVG(quantity) FROM sales)
+ORDER BY qty DESC;
+
+-- Most popular product line by gender
+SELECT product_line, gender, COUNT(gender) AS gender
+FROM sales
+GROUP BY product_line, gender
+ORDER BY gender DESC;
+
+-- Average rating of each product line
+SELECT ROUND(AVG(rating), 2) AS average_rating, product_line
+FROM sales
+GROUP BY product_line
+ORDER BY average_rating DESC;
+
+-- -------------- Sales Related Questions ------------------------------
+-- Number of sales each time of the day per weekday
+-- First approach where you can use WHERE and extract each of the day's information by entering the day
+SELECT time_of_day, COUNT(*) AS total_sales
+FROM sales
+WHERE weekday = "Monday"
+GROUP BY time_of_day
+ORDER BY total_sales DESC;
+
+-- Second method which returns all of the results at once for each of the days
+SELECT weekday, time_of_day, COUNT(*) AS total_sales
+FROM sales
+GROUP BY weekday, time_of_day
+ORDER BY weekday, total_sales DESC;
