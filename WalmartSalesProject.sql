@@ -186,3 +186,70 @@ SELECT weekday, time_of_day, COUNT(*) AS total_sales
 FROM sales
 GROUP BY weekday, time_of_day
 ORDER BY weekday, total_sales DESC;
+
+-- Customer types and the revenue generated
+SELECT customer_type, SUM(total) AS total_revenue
+FROM sales
+GROUP BY customer_type
+ORDER BY total_revenue DESC;
+
+-- City with the highest tax in percentage
+SELECT city, AVG(VAT) AS tax_percent
+FROM sales
+GROUP BY city
+ORDER BY tax_percent DESC;
+
+-- Customer type and their respective tax payments
+SELECT customer_type, AVG(VAT) AS tax_percent
+FROM sales
+GROUP BY customer_type
+ORDER BY tax_percent DESC;
+
+-- -------------- Customer Related Questions ------------------------------
+-- Unique customer types and which patronises the business the most
+SELECT DISTINCT customer_type, COUNT(*) AS count
+FROM sales
+GROUP BY customer_type;
+
+-- Unique payment methods and counts
+SELECT DISTINCT payment_method, COUNT(*) AS count
+FROM sales
+GROUP BY payment_method;
+
+-- Customer segmentation by gender
+SELECT DISTINCT gender, COUNT(*) AS count
+FROM sales
+GROUP BY gender
+ORDER BY count DESC;
+
+-- Gender distribution by branch
+SELECT gender, branch, COUNT(gender) AS count
+FROM sales
+GROUP BY gender, branch
+ORDER BY count DESC;
+
+-- Ratings versus time of the day
+SELECT time_of_day, branch, AVG(rating) AS average_rating
+FROM sales
+GROUP BY branch, time_of_day
+ORDER BY average_rating DESC;
+
+-- Ratings vs day of the week
+SELECT weekday, AVG(rating) AS average_rating
+FROM sales
+GROUP BY weekday
+ORDER BY average_rating DESC;
+
+-- Ratings vs day of the week in branches
+SELECT weekday, branch, AVG(rating) AS average_rating
+FROM sales
+GROUP BY branch, weekday
+ORDER BY average_rating DESC;
+
+
+
+
+
+
+
+
